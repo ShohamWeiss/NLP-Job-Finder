@@ -10,12 +10,6 @@ from search_enums import ExperienceLevel, EducationLevel, JobType, EducationLeve
 from random import randint
 import os
 
-job_title = "Machine Learning Engineer"
-location = "San Francisco, CA"
-experience_level = ExperienceLevel.ENTRY_LEVEL
-education_level = EducationLevel.BACHELORS_DEGREE
-job_type = JobType.FULLTIME
-
 class IndeedScraper:
     ''' Class to scrape indeed.com for jobs '''
     
@@ -77,7 +71,7 @@ class IndeedScraper:
             
             if (curr_page >= page):
                 try:
-                    self.ReadJobsOnPage(driver, df)
+                    self.ReadJobsOnPage(driver, df, job_title, location, experience_level, education_level, job_type)
                 except:
                     # save to csv
                     df.to_csv(save_dir)
@@ -98,7 +92,7 @@ class IndeedScraper:
         df.to_csv(save_dir)
         self.scrape_finished = True
     
-    def ReadJobsOnPage(self, driver, df):
+    def ReadJobsOnPage(self, driver, df, job_title, location, experience_level, education_level, job_type):
         # Get a list of all job ids on the page
             list_of_jobs = [x.get_attribute('data-jk') for x in driver.find_element(By.CLASS_NAME, "jobsearch-ResultsList")\
                                                                 .find_elements(By.CLASS_NAME, "jcs-JobTitle")]
@@ -114,7 +108,7 @@ class IndeedScraper:
                                 job_type, self.remove_tags(elem2.get_attribute("innerHTML")), driver.current_url]
     
     def ScrapeCombos(self, job_title:list, location:list, experience_level:list,
-                     education_level:list, job_type:list, save_dir:str):
+                     education_level:list, job_type:list):
         ''' Scrape all combinations of experience, education, and job type '''
         save_dir_stripped = save_dir.replace(".csv", "")
         for job in job_title:
@@ -123,7 +117,7 @@ class IndeedScraper:
                     for edu in education_level:
                         for job_t in job_type:
                             edu_mapped = EducationLevelMap[edu]
-                            save_dir = f"{save_dir_stripped}_{job}_{loc}_{exp}_{edu}_{job_t}.csv"
+                            save_dir = f"scraped_data/{job}_{loc}_{exp}_{edu}_{job_t}.csv"
                             self.Scrape(job, loc, exp, edu_mapped, job_t, 0, save_dir)
                             if (self.scrape_finished == False):
                                 self.Scrape(*self.checkpoint)
