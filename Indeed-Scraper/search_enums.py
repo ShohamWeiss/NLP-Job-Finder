@@ -9,11 +9,11 @@ class EducationLevel:
     DOCTORAL_DEGREE = "DOCTORAL_DEGREE"
 
 class JobType:
-    FULLTIME = "fulltime"
-    PARTTIME = "parttime"
-    CONTRACT = "contract"
-    INTERNSHIP = "internship"
-    TEMPORARY = "temporary"
+    FULLTIME = "FULLTIME"
+    PARTTIME = "PARTTIME"
+    CONTRACT = "CONTRACT"
+    INTERNSHIP = "INTERNSHIP"
+    TEMPORARY = "TEMPORARY"
     
 EducationLevelMap ={
     'BACHELORS_DEGREE': "FCGTU|HFDVW|QJZM9|UTPWG%2COR",
